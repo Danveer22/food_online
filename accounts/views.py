@@ -10,15 +10,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.exceptions import PermissionDenied
 from .utils import send_verification_email
 from django.contrib.auth.tokens import default_token_generator
+from vendor.models import Vendor
 
 # Create your views here.
-
-
-def check_role_customer(user):
-    if user.role == 2:
-        return True
-    else:
-        raise PermissionDenied
 
 
 def check_role_restaurant(user):
@@ -26,6 +20,16 @@ def check_role_restaurant(user):
         return True
     else:
         raise PermissionDenied
+
+
+def check_role_customer(user):
+    if user.role == 2:
+        return True
+    else:
+        raise PermissionDenied
+    
+
+
 
 
 def registerUser(request):
@@ -70,6 +74,7 @@ def registerUser(request):
         return render(request, 'accounts/registerUser.html', context)
 
 
+
 def registerVendor(request):
     if request.user.is_authenticated:
         messages.warning(request, 'You are alredy logged in.')
@@ -95,7 +100,7 @@ def registerVendor(request):
             vendor.save()
             # Send verificatoin email
             mail_subject = 'Please activate your account.'
-            email_template = 'accounts/email/account_verification_email.html'
+            email_template = 'accounts/emails/account_verification_email.html'
             send_verification_email(
                 request, user, mail_subject, email_template)
             messages.success(
@@ -119,22 +124,42 @@ def registerVendor(request):
         return render(request, 'accounts/registerVendor.html', context)
 
 
+# def login(request):
+#     if request.user.is_authenticated:
+#         messages.warning(request, 'You are alredy logged in.')
+#         return redirect('myAccount')
+#     elif request.method == 'POST':
+#         email = request.POST['email']
+#         password = request.POST['password']
+#         user = auth.authenticate(email=email, password=password)
+#         if user is not None:
+#             auth.login(request, user)
+#             messages.success(request, 'You are now logged in.')
+#             return redirect('myAccount')
+#         else:
+#             messages.error(request, 'Invalid login credential.')
+#             return redirect('login')
+
+#     return render(request, 'accounts/login.html')
+
+
 def login(request):
     if request.user.is_authenticated:
-        messages.warning(request, 'You are alredy logged in.')
+        messages.warning(request, 'You are already logged in!')
         return redirect('myAccount')
     elif request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
+
         user = auth.authenticate(email=email, password=password)
+
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'You are now logged in.')
             return redirect('myAccount')
         else:
-            messages.error(request, 'Invalid login credential.')
+            messages.error(request, 'Invalid login credentials')
             return redirect('login')
-
     return render(request, 'accounts/login.html')
 
 
@@ -187,7 +212,8 @@ def forgot_password(request):
             user = User.objects.get(email=email)
             mail_subject = 'Reset your password'
             email_template = 'accounts/emails/reset_password_email.html'
-            send_verification_email(request, user, mail_subject, email_template)
+            send_verification_email(
+                request, user, mail_subject, email_template)
             messages.success(
                 request, 'Password reset link has been sent to your email address.')
             return redirect('login')
