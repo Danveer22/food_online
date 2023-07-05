@@ -77,13 +77,14 @@ class User(AbstractUser):
 
     def has_module_perms(self, app_label):
         return True
-    
+
     def get_role(self):
         if self.role == 1:
             user_role = 'Restaurant'
         elif self.role == 2:
             user_role = 'Customer'
         return user_role
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -92,8 +93,7 @@ class UserProfile(models.Model):
         upload_to='users/profile_picture', blank=True, null=True)
     cover_photo = models.ImageField(
         upload_to='users/cover_photo', blank=True, null=True)
-    address_line_1 = models.CharField(max_length=50, blank=True, null=True)
-    address_line_2 = models.CharField(max_length=50, blank=True, null=True)
+    address = models.CharField(max_length=250, blank=True, null=True)
     country = models.CharField(max_length=50, blank=True, null=True)
     state = models.CharField(max_length=50, blank=True, null=True)
     city = models.CharField(max_length=50, blank=True, null=True)
@@ -105,16 +105,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.email
-    
-    def full_address(self):
-        return  f"{self.address_line_1}, {self.address_line_2}"
-       
 
-
-
-
-
-
+    # def full_address(self):
+    #     return f"{self.address_line_1}, {self.address_line_2}"
 
 
 # post_save.connect(post_save_create_profile_receiver, sender=User)
