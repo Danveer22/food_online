@@ -37,10 +37,17 @@
                       </a>
                     </td>
                     <td>
-                      <i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;<i
+                      {% if food.is_available  %}
+                      <span class="badge badge-success">Available</span>
+                      {% else %}
+                      <span class="badge badge-danger">Not Available</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <a href="{% url 'edit_food' food.id %}" style="color:unset;"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;<a href="{% url 'delete_food' food.id %}" onclick="return confirm('Are you sure want to delete this food?')"><i
                         class="text-danger fa fa-trash"
                         aria-hidden="true"
-                      ></i>
+                      ></i></a>
                     </td>
                   </tr>
 
@@ -50,7 +57,7 @@
               {% else %}
               <h5 class="text-center">No Food Item Found.</h5>
               <div class="text-center">
-               <a href="#" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Food</a>
+               <a href="{% url 'add_food' %}" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i>&nbsp; Add Food</a>
               </div>
               {% endif %}
               <!-- My Restaurants Form Start -->

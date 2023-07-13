@@ -11,6 +11,7 @@ from django.core.exceptions import PermissionDenied
 from .utils import send_verification_email
 from django.contrib.auth.tokens import default_token_generator
 from vendor.models import Vendor
+from django.template.defaultfilters import slugify
 
 # Create your views here.
 
@@ -39,7 +40,7 @@ def registerUser(request):
 
     elif request.method == "POST":
         form = UserForm(request.POST)
-
+        
         if form.is_valid():
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
@@ -75,72 +76,53 @@ def registerUser(request):
 
 
 
+
 def registerVendor(request):
     if request.user.is_authenticated:
-        messages.warning(request, 'You are alredy logged in.')
+        messages.warning(request, 'You are already logged in!')
         return redirect('myAccount')
     elif request.method == 'POST':
+        # store the data and create the user
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
-
-        if form.is_valid() and v_form.is_valid():
+        if form.is_valid() and v_form.is_valid:
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = User.objects.create_user(
-                first_name=first_name, last_name=last_name, username=username, email=email, password=password)
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password)
             user.role = User.RESTAURANT
             user.save()
             vendor = v_form.save(commit=False)
             vendor.user = user
+            # vendor_name = v_form.cleaned_data['vendor_name']
+            # vendor.vendor_slug = slugify(vendor_name)+'-'+str(user.id)
             user_profile = UserProfile.objects.get(user=user)
             vendor.user_profile = user_profile
             vendor.save()
-            # Send verificatoin email
-            mail_subject = 'Please activate your account.'
+
+            # Send verification email
+            mail_subject = 'Please activate your account'
             email_template = 'accounts/emails/account_verification_email.html'
-            send_verification_email(
-                request, user, mail_subject, email_template)
-            messages.success(
-                request, 'Your account has been registered sucessfully! Please wait for the approval.')
+            send_verification_email(request, user, mail_subject, email_template)
+
+            messages.success(request, 'Your account has been registered sucessfully! Please wait for the approval.')
             return redirect('registerVendor')
         else:
             print('invalid form')
             print(form.errors)
-        #     context = {
-        #         "form": form,
-        #         "v_form": v_form,
-        #     }
-        # return render(request, 'accounts/registerVendor.html', context)
     else:
         form = UserForm()
         v_form = VendorForm()
-        context = {
-            "form": form,
-            "v_form": v_form,
-        }
-        return render(request, 'accounts/registerVendor.html', context)
 
+    context = {
+        'form': form,
+        'v_form': v_form,
+    }
 
-# def login(request):
-#     if request.user.is_authenticated:
-#         messages.warning(request, 'You are alredy logged in.')
-#         return redirect('myAccount')
-#     elif request.method == 'POST':
-#         email = request.POST['email']
-#         password = request.POST['password']
-#         user = auth.authenticate(email=email, password=password)
-#         if user is not None:
-#             auth.login(request, user)
-#             messages.success(request, 'You are now logged in.')
-#             return redirect('myAccount')
-#         else:
-#             messages.error(request, 'Invalid login credential.')
-#             return redirect('login')
+    return render(request, 'accounts/registerVendor.html', context)
 
-#     return render(request, 'accounts/login.html')
 
 
 def login(request):
