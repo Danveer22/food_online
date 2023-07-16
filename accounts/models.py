@@ -106,8 +106,8 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.email
 
-    # def full_address(self):
-    #     return f"{self.address_line_1}, {self.address_line_2}"
+    def full_address(self):
+        return f"{self.address}, {self.city}, {self.state}"
 
 
 # post_save.connect(post_save_create_profile_receiver, sender=User)
