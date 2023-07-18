@@ -31,6 +31,7 @@ def get_cart_amounts(request):
             subtotal += (fooditem.price * item.quantity)
 
         get_tax = Tax.objects.filter(is_active=True)
+        print(get_tax)
         for i in get_tax:
             tax_type = i.tax_type
             tax_percentage = i.tax_percentage
@@ -38,5 +39,6 @@ def get_cart_amounts(request):
             tax_dict.update({tax_type: {str(tax_percentage): tax_amount}})
 
         tax = sum(x for key in tax_dict.values() for x in key.values())
+        print(tax)
         grand_total = subtotal + tax
     return dict(subtotal=subtotal, tax=tax, grand_total=grand_total, tax_dict=tax_dict)
