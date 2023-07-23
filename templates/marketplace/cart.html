@@ -30,7 +30,7 @@
                                                 <li id="cart-item-{{item.id}}">
                                                     <div class="image-holder"> <img src="{{ item.fooditem.image.url }}" alt=""></div>
                                                     <div class="text-holder">
-                                                        <h6>{{ item.fooditem }}</h6>
+                                                        <h6>{{ item.fooditem.food_title }}</h6>
                                                         <span>{{ item.fooditem.description }}</span>
                                                         <a href="{% url 'vendor_detail' item.fooditem.vendor.vendor_slug %}" class="badge badge-warning">{{ item.fooditem.vendor }}</a>
                                                     </div>
@@ -92,11 +92,11 @@
                                             {% for key, value in tax_dict.items %}
                                                 {% for i, j in value.items %}
                                                     <li style="list-style-type: none;">
+                                                        
                                                         {{ key }} <small>({{ i }}%)</small>
                                                         <span class="price float-right">
                                                             <span class="currency">$</span>
-                                                            <span id="tax-{{ key }}">{{ j }}</span>
-                                                        </span>
+                                                            <span id="tax-{{ key }}">{{ j }}</span>                                                      </span>
                                                     </li>
                                                 {% endfor %}
                                             {% endfor %}

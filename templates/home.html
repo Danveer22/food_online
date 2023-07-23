@@ -2,6 +2,7 @@
 {% load static %}
 <!-- Main Section Start -->
 {% block content %}
+
 <div class="main-section">
   <!-- Home Pages Elements Strat -->
   <!-- Main Search Start -->
@@ -22,16 +23,17 @@
             >
               We are in the business of food<br />our restaurants do
             </h1>
-            <p
+            <p id ="p-text"
               style="
                 font-size: 18px;
                 letter-spacing: 1px;
                 color: #505050;
                 text-align: center;
+               
+               
               "
             >
-              Ridiculus sociosqu cursus neque cursus curae ante scelerisque
-              vehicula.
+            There is nothing more romantic than delicious food
             </p>
           </div>
         </div>
@@ -193,7 +195,7 @@
               <li class="has-border">
                 <figure>
                   {% if vendor.user_profile.profile_picture %}
-                  <a href="#"
+                  <a href=""
                     ><img
                       src="{{vendor.user_profile.profile_picture.url}}"
                       class="attachment-full size-full wp-post-image"
@@ -276,7 +278,7 @@
                     
                     <div class="post-title">
                       <h5>
-                        <a href="listing-detail.html">{{vendor.vendor_name}}</a>
+                        <a href="{% url 'vendor_detail' vendor.vendor_slug %}">{{vendor.vendor_name}}</a>
                 
                       </h5>
                     </div>

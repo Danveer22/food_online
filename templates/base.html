@@ -25,6 +25,7 @@
 	<script src="{% static 'js/modernizr.js' %}"></script>
 	<script src="{% static 'js/bootstrap.js' %}"></script>
 
+
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 
 	{% if '/' == request.path or 'profile' in request.path %}
@@ -32,6 +33,7 @@
 	{% endif %}
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="{% static 'js/custom.js' %}"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id={{ PAYPAL_CLIENT_ID }}&currency=USD"></script>
       
 
     <style>
@@ -43,6 +45,93 @@
         text-transform: none;
         color: #515151 !important;
       }
+      .company-logo li {
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .company-logo li:hover {
+    transform: translateY(-10px) scale(1.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  .company-logo li:hover img {
+    opacity: 0.8;
+  }
+
+  .company-logo li:not(:hover) img {
+    opacity: 1;
+  }
+
+  .company-logo li:not(:hover) {
+    transform: scale(1);
+    box-shadow: none;
+  }
+
+  .company-logo li:hover .restaurant-status {
+    color: #ff4500;
+  }
+
+  .company-logo li .restaurant-status {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    color: #ffffff;
+    background-color: #ff4500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    display: none;
+  }
+
+  .company-logo li:hover .restaurant-status {
+    display: block;
+  }
+
+  /* Additional Hover Animations for Search Bar */
+  .main-search-bar input[type="text"]:focus {
+    border-color: #ff4500;
+    box-shadow: 0 0 8px rgba(255, 69, 0, 0.4);
+  }
+
+  .main-search-bar input[type="text"]::placeholder {
+    color: #c0c0c0;
+  }
+
+  .main-search-bar input[type="text"]:hover::placeholder {
+    color: #777777;
+  }
+
+  .main-search-bar input[type="submit"]:hover {
+    background-color: #ff4500;
+    color: #ffffff;
+    transform: scale(1.05);
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  /* Additional Hover Animations for Most Popular Restaurant Items */
+  .listing li:hover h5 a {
+    color: #ff4500;
+  }
+
+  .listing li .post-title h5 a {
+    color: #505050;
+    transition: color 0.3s ease-in-out;
+  }  
+  .cs-popup-joinus-btn:hover {
+    color: #ff4500;
+    transition: color 0.3s ease-in-out;
+  }
+  .fa-shopping-cart:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  .btn-outline-danger:hover {
+    background-color: #ff4500;
+    color: #ffffff;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
     </style>
   </head>
 
