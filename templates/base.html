@@ -130,6 +130,52 @@
     background-color: #ff4500;
     color: #ffffff;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    
+
+@keyframes show-toast{
+  0% {bottom: -100%}
+  20% {bottom: 100px}
+  80% {bottom: 100px}
+  100% {bottom: -100%}
+}
+
+.show-notification{
+  position: fixed;
+  bottom: 100%;
+  right: 20px;
+  animation-name: show-toast;
+  animation-duration: 8s;
+  z-index: 99;
+}
+
+.btn{
+  padding: 2px 1.75em;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.logo {
+  max-width: 100%; /* Set the maximum width for the logo container */
+}
+
+.logo img {
+  max-width: 100%; /* Set the maximum width for the logo image */
+  height: auto; /* Maintain the aspect ratio */
+}
+
+table > tbody > tr > td{
+  border: none !important;
+}
+
+#opening_hours select{
+  padding: 5px 10px !important;
+}
+
+.btn-success.add_hour {
+  padding: 7px 15px 7px 15px;
+}
+
+
   }
   
     </style>
